@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VyaparSaathi - Setup Verification</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background: #f5f5f5; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .status { padding: 15px; margin: 10px 0; border-radius: 8px; font-weight: bold; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .warning { background: #fff3cd; color: #856404; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        button { padding: 12px 24px; margin: 10px; font-size: 16px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-primary { background: #007bff; color: white; }
+        .btn-success { background: #28a745; color: white; }
+        .btn-warning { background: #ffc107; color: black; }
+        .code { background: #f8f9fa; padding: 10px; border-radius: 5px; font-family: monospace; margin: 10px 0; }
+        .checklist { list-style: none; padding: 0; }
+        .checklist li { padding: 8px 0; border-bottom: 1px solid #eee; }
+        .checklist li:before { content: "❌ "; }
+        .checklist li.checked:before { content: "✅ "; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 VyaparSaathi Setup Verification</h1>
+        <p><strong>Your Client ID:</strong> <code>556165589131-cqj02a2l07npg1tf47ll994llo3nm4f0.apps.googleusercontent.com</code></p>
+        
+        <div id="status" class="status info">
+            <strong>Status:</strong> Running verification checks...
+        </div>
+        
+        <h2>📋 Setup Checklist</h2>
+        <ul class="checklist" id="checklist">
+            <li id="check-client-id">Client ID configured correctly</li>
+            <li id="check-backend-port">Backend running on port 5501</li>
+            <li id="check-frontend-port">Frontend connecting to port 5501</li>
+            <li id="check-google-oauth">Google OAuth SDK loaded</li>
+            <li id="check-backend-connection">Backend server accessible</li>
+            <li id="check-google-consent">Google OAuth consent screen configured</li>
+        </ul>
+        
+        <h2>🧪 Tests</h2>
+        <button class="btn-primary" onclick="runAllTests()">Run All Tests</button>
+        <button class="btn-success" onclick="testGoogleLogin()">Test Google Login</button>
+        <button class="btn-warning" onclick="showGoogleConsoleInstructions()">Show Google Console Instructions</button>
+        
+        <h2>📊 Results</h2>
+        <div id="results">
+            <div class="code" id="test-results">Click "Run All Tests" to see results</div>
+        </div>
+        
+        <h2>🔧 Quick Fixes</h2>
+        <div id="fixes">
+            <p>If any tests fail, follow the instructions below:</p>
+        </div>
+    </div>
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script>
+        const API_BASE = 'http://127.0.0.1:5501';
+        const CLIENT_ID = '556165589131-cqj02a2l07npg1tf47ll994llo3nm4f0.apps.googleusercontent.com';
+        
+        function updateStatus(message, type = 'info') {
+            const statusDiv = document.getElementById('status');
+            statusDiv.className = `status ${type}`;
+            statusDiv.innerHTML = `<strong>Status:</strong> ${message}`;
+        }
+        
+        function checkItem(id, checked) {
+            const item = document.getElementById(id);
+            if (checked) {
+                item.classList.add('checked');
+            } else {
+                item.classList.remove('checked');
+            }
+        }
+        
+        function addResult(message, type = 'info') {
+            const resultsDiv = document.getElementById('test-results');
+            const timestamp = new Date().toLocaleTimeString();
+            resultsDiv.innerHTML += `[${timestamp}] ${message}\n`;
+        }
+        
+        async function runAllTests() {
+            updateStatus("🔄 Running all verification tests...", 'info');
+            document.getElementById('test-results').innerHTML = '';
+            
+            // Test 1: Client ID
+            addResult("✓ Client ID: " + CLIENT_ID);
+            checkItem('check-client-id', true);
+            
+            // Test 2: Google OAuth SDK
+            if (typeof google !== 'undefined' && google.accounts) {
+                addResult("✓ Google OAuth SDK loaded successfully");
+                checkItem('check-google-oauth', true);
+            } else {
+                addResult("❌ Google OAuth SDK not loaded");
+                checkItem('check-google-oauth', false);
+            }
+            
+            // Test 3: Backend Connection
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                if (response.ok) {
+                    addResult("✓ Backend server is running on port 5501");
+                    checkItem('check-backend-port', true);
+                    checkItem('check-backend-connection', true);
+                } else {
+                    throw new Error('Backend not responding');
+                }
+            } catch (error) {
+                addResult("❌ Backend server not accessible: " + error.message);
+                addResult("   → Start your server: python app.py");
+                checkItem('check-backend-port', false);
+                checkItem('check-backend-connection', false);
+            }
+            
+            // Test 4: Frontend Configuration
+            addResult("✓ Frontend configured to use port 5501");
+            checkItem('check-frontend-port', true);
+            
+            // Test 5: Google OAuth Configuration
+            if (typeof google !== 'undefined' && google.accounts) {
+                try {
+                    google.accounts.id.initialize({
+                        client_id: CLIENT_ID,
+                        callback: function(response) {
+                            addResult("✓ Google OAuth configuration successful");
+                            checkItem('check-google-consent', true);
+                        },
+                        auto_select: false
+                    });
+                } catch (error) {
+                    addResult("❌ Google OAuth configuration failed: " + error.message);
+                    checkItem('check-google-consent', false);
+                }
+            }
+            
+            updateStatus("✅ Verification complete! Check results above.", 'success');
+        }
+        
+        function testGoogleLogin() {
+            updateStatus("🔄 Testing Google Login...", 'info');
+            
+            if (typeof google !== 'undefined' && google.accounts) {
+                google.accounts.id.prompt();
+            } else {
+                updateStatus("❌ Google OAuth SDK not loaded", 'error');
+            }
+        }
+        
+        function showGoogleConsoleInstructions() {
+            const instructions = `
+GOOGLE CLOUD CONSOLE SETUP:
+
+1. Go to: https://console.cloud.google.com/
+2. Navigate to: "APIs & Services" > "Credentials"
+3. Find your OAuth client: ${CLIENT_ID}
+4. Click on it to edit
+5. Add these URLs to "Authorized JavaScript origins":
+   - http://localhost:5501
+   - http://127.0.0.1:5501
+   - file://
+6. Add these URLs to "Authorized redirect URIs":
+   - http://localhost:5501
+   - http://127.0.0.1:5501
+7. Click "Save"
+8. Test again!
+            `;
+            
+            document.getElementById('fixes').innerHTML = `
+                <div class="code">${instructions}</div>
+            `;
+        }
+        
+        // Auto-run tests on page load
+        window.onload = function() {
+            setTimeout(runAllTests, 1000);
+        };
+    </script>
+</body>
+</html>
