@@ -1,0 +1,2 @@
+export const projectId = "baimricnypnqqasgrdii"
+export const publicAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJhaW1yaWNueXBucXFhc2dyZGlpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4OTM3NjgsImV4cCI6MjA3NDQ2OTc2OH0.Z88inkhEs_TLprKU-stNH8gHJI0IUyy2llbdYmoXko8"
