@@ -1,0 +1,28 @@
+# config_lmstudio.yaml
+lmstudio:
+  url: "http://localhost:1234"
+  model: "qwen/qwen3-4b-2507"
+  timeout: 300
+  temperature: 0.7
+  max_tokens: 2000
+
+documentation:
+  output_dir: "docs"
+  supported_extensions: [".py", ".js", ".ts", ".java", ".cpp", ".c", ".go", ".rs"]
+  include_flowcharts: true
+  include_complexity_analysis: true
+
+git:
+  auto_commit: true
+  commit_message: "Auto-generated documentation with LM Studio"
+  push_to_remote: true
+
+web:
+  port: 5000
+  host: "0.0.0.0"
+  enable_server: true
+
+deployment:
+  service: "github"
+  auto_deploy: false
+  deploy_branch: "gh-pages"
