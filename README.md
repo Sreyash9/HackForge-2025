@@ -45,7 +45,7 @@ hackforge-2025-projects/
    ```bash
    mkdir -p your-team-name/your-project-name
    # Copy your project files into the folder
-   cp -r /path/to/your/project/* your-team-name/your-project-name/
+   
    ```
 5. **Commit and push** your changes:
    ```bash
