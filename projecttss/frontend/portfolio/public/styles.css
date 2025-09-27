@@ -1,0 +1,490 @@
+.login-btn {
+  padding: 10px 24px;
+  background-color: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* header */
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  background: linear-gradient(90deg, #4b6cb7, #182848);
+  color: #fff;
+  border-bottom: 2px solid #333;
+  border-radius: 0 0 10px 10px;
+}
+
+.header-left .portal-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin: 10;
+}
+
+.header-right .greeting {
+  font-size: 1.2rem;
+  margin: 10;
+}
+
+
+/* Employee Progress Styles */
+.employee-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin: 24px 0;
+  padding: 20px 28px;
+  background: #f7f9fa;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  width: 340px;
+}
+
+.employee-name {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #1976d2;
+}
+
+.progress-section {
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.progress-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #555;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 18px;
+  background: #e0e0e0;
+  border-radius: 9px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #1976d2 60%, #42a5f5 100%);
+  border-radius: 9px 0 0 9px;
+  transition: width 0.4s;
+}
+
+.progress-label {
+  font-size: 0.95rem;
+  color: #333;
+  font-weight: 500;
+}
+
+.total-hours-label {
+  font-size: 1.1rem;
+  color: #388e3c;
+  font-weight: 600;
+  margin-left: 2px;
+}
+
+/* Task design */
+.task-box {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(25, 118, 210, 0.08);
+  padding: 18px 22px;
+  margin: 18px 0;
+  width: 320px;
+  transition: background 0.2s;
+}
+
+.task-box.done {
+  background: #e8f5e9;
+  opacity: 0.8;
+}
+
+.task-title {
+  margin: 0 0 8px 0;
+  font-size: 1.1rem;
+  color: #1976d2;
+}
+
+.task-desc {
+  margin: 0 0 14px 0;
+  color: #444;
+  font-size: 0.98rem;
+}
+
+.task-btn {
+  padding: 7px 18px;
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.97rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.task-btn:hover {
+  background: #125ea7;
+}
+
+/* task card */
+.task-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 16px 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 400px;
+  cursor: pointer;
+}
+
+.task-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.project-title {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.project-description {
+  font-size: 1rem;
+  color: #555;
+  line-height: 1.4;
+}
+
+
+/* employer list design */
+/* Container for the entire list */
+.list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* spacing between list cards */
+  max-width: 500px;
+  margin: 20px auto;
+}
+
+/* Individual list card */
+.list-card {
+  display: flex;
+  justify-content: space-between; /* name on left, hours on right */
+  align-items: center;
+  background: #ffffff;
+  padding: 14px 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: background 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.list-card:hover {
+  background: #f8f9fa;
+  transform: translateY(-2px);
+}
+
+/* Employee name */
+.list-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #333;
+}
+
+/* Hours text */
+.list-hour {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+
+
+/* home ui */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@400;500&display=swap');
+
+/* Dashboard Container */
+.dashboard-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 15px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f0f6ff; /* light misty blue */
+  color: #1e1e2f;
+}
+
+/* Top Row */
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px; /* reduced */
+}
+
+/* Greeting + Progress */
+.greeting-progress h1 {
+  font-size: 2.3rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #2a2a72;
+}
+
+.greeting-progress {
+  flex: 1;
+  margin-right: 15px; /* reduced space */
+}
+
+/* Join Work Section */
+.join-work-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.join-work-section .login-btn {
+  font-size: 1.8rem;
+  padding: 26px 70px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, #4f8bff, #6a5acd);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 6px 18px rgba(79, 139, 255, 0.4);
+  margin-bottom: 15px; /* reduced */
+}
+
+.join-work-section .login-btn:hover {
+  transform: scale(1.07);
+  background: linear-gradient(90deg, #6a5acd, #4f8bff);
+}
+
+.join-work-section p {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
+  background: #fff;
+  padding: 12px 22px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Middle Row - Productivity + Progress Side by Side */
+.middle-row {
+  display: flex;
+  gap: 20px; /* reduced */
+  margin-bottom: 25px; /* reduced */
+}
+
+.productivity-row,
+.progress-row {
+  flex: 1;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.productivity-row h3,
+.progress-row h3 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #2a2a72;
+  margin-bottom: 12px;
+}
+
+/* Progress Bar */
+.progress-bar {
+  background-color: #e6e6e6;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 35px; /* bigger */
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #4f8bff, #6a5acd);
+  height: 100%;
+  transition: width 0.5s ease;
+  border-radius: 20px;
+}
+
+/* Metrics under Productivity */
+.metrics {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 12px;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #444;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Bottom Row - Tasks */
+.tasks-row {
+  margin-top: 15px;
+  padding: 20px;
+  border-radius: 14px;
+}
+
+.tasks-title {
+  font-size: 1.9rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #2a2a72;
+}
+
+/* Horizontal Task List */
+.tasks-horizontal {
+  display: flex;
+  overflow-x: auto;
+  gap: 15px; /* reduced */
+  padding-bottom: 8px;
+}
+
+.tasks-horizontal::-webkit-scrollbar {
+  height: 8px;
+}
+
+.tasks-horizontal::-webkit-scrollbar-thumb {
+  background-color: #4f8bff;
+  border-radius: 4px;
+}
+
+.tasks-horizontal::-webkit-scrollbar-track {
+  background-color: #dce6f9;
+}
+
+/* Task cards */
+.tasks-horizontal .task-card {
+  flex: 0 0 300px;  /* equal width */
+  height: 200px;   /* equal height */
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tasks-horizontal .task-card h4 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.tasks-horizontal .task-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Task card fallback */
+.no-tasks {
+  color: #777;
+  font-style: italic;
+  text-align: center;
+}
+
+
+
+
+
+
+
+/* admin ui */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+.employer-dashboard {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 25px 20px;
+  font-family: 'Poppins', sans-serif;
+  background-color: #f4f8ff; /* light misty blue */
+  color: #1e1e2f;
+}
+
+/* Header */
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: linear-gradient(90deg, #4f8bff, #6a5acd);
+  border-radius: 12px;
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+/* List Section */
+.list-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Each List Item */
+.list-section .list-card {
+  flex: 1 1 300px;
+  min-width: 280px;
+  background-color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.list-section .list-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+/* List Card Content */
+.list-section .list-card h4 {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 10px;
+  color: #2a2a72;
+}
+
+.list-section .list-card p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Scrollbar for overflow (if any) */
+.list-section::-webkit-scrollbar {
+  height: 8px;
+}
+
+.list-section::-webkit-scrollbar-thumb {
+  background-color: #4f8bff;
+  border-radius: 4px;
+}
+
+.list-section::-webkit-scrollbar-track {
+  background-color: #e0e6f5;
+}
+
+
+
+
+
+
