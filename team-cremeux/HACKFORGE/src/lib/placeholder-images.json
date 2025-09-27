@@ -1,0 +1,58 @@
+{
+  "placeholderImages": [
+    {
+      "id": "hero",
+      "description": "A freelancer working on a laptop in a modern workspace.",
+      "imageUrl": "https://images.unsplash.com/photo-1755352425808-b8223a330f15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmcmVlbGFuY2VyJTIwd29ya3NwYWNlfGVufDB8fHx8MTc1ODgwODk4NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "freelancer workspace"
+    },
+    {
+      "id": "feature-budget",
+      "description": "A desk with financial charts and a calculator.",
+      "imageUrl": "https://images.unsplash.com/photo-1744782211816-c5224434614f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmaW5hbmNlJTIwY2hhcnRzfGVufDB8fHx8MTc1ODgyNTQ4Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "finance charts"
+    },
+    {
+      "id": "feature-tax",
+      "description": "Tax forms and a pen on a table.",
+      "imageUrl": "https://images.unsplash.com/photo-1554224154-22dec7ec8818?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx0YXglMjBmb3Jtc3xlbnwwfHx8fDE3NTg4NzI5NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tax forms"
+    },
+    {
+      "id": "feature-scam",
+      "description": "A person looking cautiously at a computer screen.",
+      "imageUrl": "https://images.unsplash.com/photo-1715498015264-6da4ea46648c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjYXV0aW91cyUyMGNvbXB1dGVyfGVufDB8fHx8MTc1ODg3Mjk1N3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cautious computer"
+    },
+    {
+      "id": "avatar-1",
+      "description": "User avatar 1",
+      "imageUrl": "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NTg3ODg5NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "avatar-2",
+      "description": "User avatar 2",
+      "imageUrl": "https://images.unsplash.com/photo-1590086782792-42dd2350140d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NTg3ODg5NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "avatar-3",
+      "description": "User avatar 3",
+      "imageUrl": "https://images.unsplash.com/photo-1590086782792-42dd2350140d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NTg3ODg5NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "avatar-4",
+      "description": "User avatar 4",
+      "imageUrl": "https://images.unsplash.com/photo-1590086782792-42dd2350140d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxwZXJzb24lMjBwb3J0cmFpdHxlbnwwfHx8fDE3NTg3ODg5NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "person portrait"
+    },
+    {
+      "id": "razorpay-logo",
+      "description": "Razorpay company logo",
+      "imageUrl": "https://storage.googleapis.com/aai-sit-splash-static-content/razorpay-logo.png",
+      "imageHint": "razorpay logo"
+    }
+  ]
+}
