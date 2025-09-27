@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug Google Login - VyaparSaathi</title>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f0f0f0; }
+        .container { max-width: 900px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
+        .debug-section { margin: 20px 0; padding: 15px; border: 1px solid #ddd; border-radius: 5px; }
+        .error { background: #ffebee; border-color: #f44336; }
+        .success { background: #e8f5e8; border-color: #4caf50; }
+        .warning { background: #fff3e0; border-color: #ff9800; }
+        .info { background: #e3f2fd; border-color: #2196f3; }
+        button { padding: 10px 20px; margin: 5px; background: #2196f3; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .error-btn { background: #f44336; }
+        .success-btn { background: #4caf50; }
+        pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        .step { margin: 10px 0; padding: 10px; background: #f9f9f9; border-left: 4px solid #2196f3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Debug Google Login - VyaparSaathi</h1>
+        
+        <div class="debug-section info">
+            <h3>📋 Current Configuration</h3>
+            <p><strong>Client ID:</strong> <code>556165589131-cqj02a2l07npg1tf47ll994llo3nm4f0.apps.googleusercontent.com</code></p>
+            <p><strong>Backend URL:</strong> <code id="backend-url">http://127.0.0.1:5501</code></p>
+            <p><strong>Current Page:</strong> <code id="current-url"></code></p>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🧪 Step-by-Step Debug Tests</h3>
+            <div class="step">
+                <strong>Step 1:</strong> Check if Google SDK is loaded
+                <button onclick="testGoogleSDK()">Test Google SDK</button>
+                <div id="sdk-result"></div>
+            </div>
+            
+            <div class="step">
+                <strong>Step 2:</strong> Test backend connection
+                <button onclick="testBackend()">Test Backend</button>
+                <div id="backend-result"></div>
+            </div>
+            
+            <div class="step">
+                <strong>Step 3:</strong> Test Google OAuth initialization
+                <button onclick="testOAuthInit()">Test OAuth Init</button>
+                <div id="oauth-result"></div>
+            </div>
+            
+            <div class="step">
+                <strong>Step 4:</strong> Test actual Google login
+                <button onclick="testGoogleLogin()">Test Google Login</button>
+                <div id="login-result"></div>
+            </div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>📊 Debug Log</h3>
+            <pre id="debug-log">Click the test buttons above to see debug information...</pre>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🔧 Common Fixes</h3>
+            <div id="fixes">
+                <p>Run the tests above to see specific fixes for your issue.</p>
+            </div>
+        </div>
+        
+        <div class="debug-section">
+            <h3>🚀 Quick Actions</h3>
+            <button onclick="runAllTests()">Run All Tests</button>
+            <button onclick="clearLog()">Clear Log</button>
+            <button onclick="showGoogleConsoleHelp()">Show Google Console Help</button>
+        </div>
+    </div>
+    
+    <script>
+        const CLIENT_ID = '556165589131-cqj02a2l07npg1tf47ll994llo3nm4f0.apps.googleusercontent.com';
+        const API_BASE = 'http://127.0.0.1:5501';
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const logDiv = document.getElementById('debug-log');
+            const color = type === 'error' ? '#f44336' : type === 'success' ? '#4caf50' : type === 'warning' ? '#ff9800' : '#2196f3';
+            logDiv.innerHTML += `<span style="color: ${color}">[${timestamp}] ${message}</span>\n`;
+            logDiv.scrollTop = logDiv.scrollHeight;
+        }
+        
+        function clearLog() {
+            document.getElementById('debug-log').innerHTML = 'Log cleared...\n';
+        }
+        
+        function updateResult(elementId, message, type = 'info') {
+            const element = document.getElementById(elementId);
+            element.innerHTML = `<div class="${type}">${message}</div>`;
+        }
+        
+        function testGoogleSDK() {
+            log('Testing Google SDK...');
+            if (typeof google !== 'undefined' && google.accounts) {
+                log('✅ Google SDK loaded successfully', 'success');
+                updateResult('sdk-result', '✅ Google SDK is loaded and ready', 'success');
+            } else {
+                log('❌ Google SDK not loaded', 'error');
+                updateResult('sdk-result', '❌ Google SDK not loaded. Check internet connection.', 'error');
+            }
+        }
+        
+        async function testBackend() {
+            log('Testing backend connection...');
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                if (response.ok) {
+                    const data = await response.json();
+                    log('✅ Backend is running and accessible', 'success');
+                    updateResult('backend-result', '✅ Backend is running on port 5501', 'success');
+                } else {
+                    throw new Error(`Backend returned ${response.status}`);
+                }
+            } catch (error) {
+                log(`❌ Backend connection failed: ${error.message}`, 'error');
+                updateResult('backend-result', `❌ Backend not accessible: ${error.message}`, 'error');
+                log('💡 Make sure to run: python app.py', 'warning');
+            }
+        }
+        
+        function testOAuthInit() {
+            log('Testing Google OAuth initialization...');
+            try {
+                if (typeof google !== 'undefined' && google.accounts) {
+                    google.accounts.id.initialize({
+                        client_id: CLIENT_ID,
+                        callback: function(response) {
+                            log('✅ OAuth callback received', 'success');
+                            testBackendWithToken(response.credential);
+                        },
+                        auto_select: false,
+                        cancel_on_tap_outside: true
+                    });
+                    log('✅ Google OAuth initialized successfully', 'success');
+                    updateResult('oauth-result', '✅ OAuth initialized with your client ID', 'success');
+                } else {
+                    throw new Error('Google SDK not loaded');
+                }
+            } catch (error) {
+                log(`❌ OAuth initialization failed: ${error.message}`, 'error');
+                updateResult('oauth-result', `❌ OAuth init failed: ${error.message}`, 'error');
+            }
+        }
+        
+        function testGoogleLogin() {
+            log('Testing Google login...');
+            if (typeof google !== 'undefined' && google.accounts) {
+                try {
+                    google.accounts.id.prompt();
+                    log('✅ Google login prompt triggered', 'success');
+                    updateResult('login-result', '✅ Google login popup should appear', 'success');
+                } catch (error) {
+                    log(`❌ Google login failed: ${error.message}`, 'error');
+                    updateResult('login-result', `❌ Login failed: ${error.message}`, 'error');
+                }
+            } else {
+                log('❌ Cannot test login - Google SDK not loaded', 'error');
+                updateResult('login-result', '❌ Google SDK not loaded', 'error');
+            }
+        }
+        
+        async function testBackendWithToken(token) {
+            log('Testing backend authentication with token...');
+            try {
+                const response = await fetch(`${API_BASE}/auth/google`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({
+                        token: token
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok && data.success) {
+                    log('🎉 Complete OAuth flow successful!', 'success');
+                    updateResult('login-result', '🎉 Login successful! You can now use your app.', 'success');
+                } else {
+                    log(`❌ Backend authentication failed: ${data.error}`, 'error');
+                    updateResult('login-result', `❌ Backend auth failed: ${data.error}`, 'error');
+                }
+            } catch (error) {
+                log(`❌ Backend authentication error: ${error.message}`, 'error');
+                updateResult('login-result', `❌ Backend error: ${error.message}`, 'error');
+            }
+        }
+        
+        function runAllTests() {
+            clearLog();
+            log('🚀 Running all debug tests...', 'info');
+            testGoogleSDK();
+            setTimeout(() => testBackend(), 500);
+            setTimeout(() => testOAuthInit(), 1000);
+            setTimeout(() => testGoogleLogin(), 1500);
+        }
+        
+        function showGoogleConsoleHelp() {
+            const help = `
+GOOGLE CLOUD CONSOLE FIX:
+
+1. Go to: https://console.cloud.google.com/
+2. Navigate to: "APIs & Services" > "Credentials"
+3. Find your OAuth client: ${CLIENT_ID}
+4. Click on it to edit
+5. In "Authorized JavaScript origins", add:
+   - http://localhost:5501
+   - http://127.0.0.1:5501
+   - file://
+6. In "Authorized redirect URIs", add:
+   - http://localhost:5501
+   - http://127.0.0.1:5501
+7. Click "Save"
+8. Wait 1-2 minutes for changes to take effect
+9. Test again!
+
+COMMON ISSUES:
+- Make sure your server is running (python app.py)
+- Check that port 5501 is not blocked
+- Ensure you're using the correct client ID
+- Wait a few minutes after updating Google Console
+            `;
+            
+            document.getElementById('fixes').innerHTML = `<pre>${help}</pre>`;
+        }
+        
+        // Auto-run tests on page load
+        window.onload = function() {
+            document.getElementById('current-url').textContent = window.location.href;
+            log('🔍 Debug tool loaded. Click "Run All Tests" to start.', 'info');
+        };
+    </script>
+</body>
+</html>

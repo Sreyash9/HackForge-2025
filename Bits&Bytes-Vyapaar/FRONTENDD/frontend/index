@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VyaparSaathi - Your Business Companion</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f2f5;
+        }
+        /* Page transition styles */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh; /* Use vh to ensure full screen coverage */
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            will-change: opacity, transform;
+        }
+        .page-hidden {
+            opacity: 0;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
+        /* Keyframe animations */
+        @keyframes glow-green {
+            0%, 100% { box-shadow: 0 0 2px #2ddc73, 0 0 5px #2ddc73, 0 0 8px #2ddc73; }
+            50% { box-shadow: 0 0 8px #2ddc73, 0 0 15px #2ddc73, 0 0 20px #2ddc73; }
+        }
+        @keyframes glow-red {
+            0%, 100% { box-shadow: 0 0 2px #dc2626, 0 0 5px #dc2626, 0 0 8px #dc2626; }
+            50% { box-shadow: 0 0 8px #dc2626, 0 0 15px #dc2626, 0 0 20px #dc2626; }
+        }
+        .glow-green {
+            animation: glow-green 2.5s infinite ease-in-out;
+        }
+        .glow-red {
+            animation: glow-red 2.5s infinite ease-in-out;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translate3d(0, 20px, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-in-out forwards;
+        }
+        /* Custom scrollbar for chat */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #e5e7eb;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #9ca3af;
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+        /* Modal styles */
+        .modal-overlay {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-content {
+            transition: transform 0.3s ease-in-out;
+        }
+    </style>
+    
+</head>
+<body class="overflow-hidden">
+
+    <!-- Splash Screen -->
+    <div id="splash-screen" class="page flex items-center justify-center bg-gray-900">
+        <div id="logo-container" class="text-center cursor-pointer transform transition-transform duration-300 hover:scale-105">
+            <!-- Cool Logo SVG -->
+            <svg class="w-32 h-32 mx-auto" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M25 85V45L50 20L75 45V85H25Z" stroke="#4f46e5" stroke-width="5"/>
+                <path d="M40 85V60C40 54.4772 44.4772 50 50 50C55.5228 50 60 54.4772 60 60V85" stroke="white" stroke-width="5"/>
+                <path d="M70 40L85 50" stroke="#818cf8" stroke-width="5" stroke-linecap="round"/>
+                <path d="M15 50L30 40" stroke="#818cf8" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+            <h1 class="text-white text-3xl font-bold mt-4">Welcome to <span class="text-indigo-400">VyaparSaathi</span>!</h1>
+        </div>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="page page-hidden flex items-center justify-center bg-gray-100 p-4">
+        <div class="w-full max-w-md p-8 space-y-6 bg-white rounded-2xl shadow-xl fade-in-up">
+            <div class="text-center">
+                 <svg class="w-16 h-16 mx-auto mb-2 text-indigo-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M25 85V45L50 20L75 45V85H25Z" stroke="currentColor" stroke-width="5"/>
+                    <path d="M40 85V60C40 54.4772 44.4772 50 50 50C55.5228 50 60 54.4772 60 60V85" stroke="#a5b4fc" stroke-width="5"/>
+                 </svg>
+                <h1 class="text-3xl font-extrabold text-gray-900">Sign In</h1>
+                <p class="text-gray-500 mt-2">Access your business dashboard</p>
+            </div>
+            <div class="space-y-4">
+                <button class="w-full flex items-center justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 font-medium hover:bg-gray-50 transition-colors">
+                    <img class="w-6 h-6 mr-3" src="https://www.google.com/favicon.ico" alt="Google icon">
+                    Sign in with Google
+                </button>
+            </div>
+            <div class="flex items-center justify-center space-x-2">
+                <hr class="w-full border-gray-300"><span class="text-gray-400 font-medium text-sm">OR</span><hr class="w-full border-gray-300">
+            </div>
+            <form class="space-y-6" action="#" method="POST">
+                <div class="relative">
+                    <label for="email" class="text-sm font-bold text-gray-700 block mb-1">Email Address</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required placeholder="you@example.com" class="pl-10 pr-4 py-3 block w-full border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none top-7">
+                        <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" /></svg>
+                    </div>
+                </div>
+                <div class="relative">
+                    <label for="password" class="text-sm font-bold text-gray-700 block mb-1">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="••••••••" class="pl-10 pr-4 py-3 block w-full border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none top-7">
+                         <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                    </div>
+                </div>
+                <button id="login-btn" type="button" class="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 font-bold focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform hover:scale-105">
+                    Sign In
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Choice Page -->
+    <div id="choice-page" class="page page-hidden flex items-center justify-center bg-gray-100 p-4">
+        <div class="w-full max-w-4xl p-8 space-y-8 bg-white rounded-2xl shadow-xl text-center fade-in-up">
+            <h1 class="text-3xl font-extrabold text-gray-900">What would you like to do?</h1>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+                <!-- Upload New Data Card -->
+                <div id="go-to-upload-card" class="p-8 border-2 border-transparent rounded-2xl shadow-lg hover:shadow-2xl hover:border-indigo-500 cursor-pointer transition-all duration-300 transform hover:-translate-y-2">
+                    <svg class="mx-auto h-16 w-16 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M12 15l-4-4m4 4l4-4m-4 4V3" /></svg>
+                    <h2 class="text-2xl font-bold text-gray-800 mt-4">Upload New Spreadsheet</h2>
+                    <p class="text-gray-500 mt-2">Get fresh insights from a new sales file.</p>
+                </div>
+                <!-- Access Previous Analysis Card -->
+                <div id="access-previous-card" class="p-8 border-2 border-transparent rounded-2xl shadow-lg hover:shadow-2xl hover:border-gray-400 cursor-pointer transition-all duration-300 transform hover:-translate-y-2 bg-gray-50 text-gray-400">
+                     <svg class="mx-auto h-16 w-16" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" /></svg>
+                    <h2 class="text-2xl font-bold mt-4">Access Previous Analysis</h2>
+                    <p class="mt-2">Review your previously saved insights.</p>
+                </div>
+            </div>
+             <button id="back-to-login-btn" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800 mt-8">&larr; Back to Login</button>
+        </div>
+    </div>
+
+    <!-- Upload Page -->
+    <div id="upload-page" class="page page-hidden flex items-center justify-center bg-gray-100 p-4">
+        <div class="w-full max-w-2xl text-center">
+            <div id="upload-box" class="p-8 bg-white rounded-2xl shadow-xl fade-in-up relative">
+                <button id="back-to-choice-btn" class="absolute top-4 left-4 text-sm font-semibold text-indigo-600 hover:text-indigo-800 flex items-center">&larr; Back</button>
+                <h1 class="text-3xl font-extrabold text-gray-900">Upload Your Data</h1>
+                <p class="text-gray-500 mt-2 mb-8">Drop your sales spreadsheet below to get started.</p>
+                <div id="drop-zone" class="mt-1 flex justify-center px-6 pt-10 pb-12 border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 transition-colors">
+                    <div class="space-y-1 text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-gray-600 justify-center">
+                            <label for="file-upload" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none">
+                                <span>Upload a file</span>
+                                <input id="file-upload" name="file-upload" type="file" class="sr-only">
+                            </label>
+                            <p class="pl-1">or drag and drop</p>
+                        </div>
+                        <p class="text-xs text-gray-500">XLSX, CSV up to 10MB</p>
+                    </div>
+                </div>
+                <button id="submit-btn" type="button" class="mt-8 w-full max-w-xs mx-auto flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-lg text-white bg-indigo-600 hover:bg-indigo-700 font-bold focus:outline-none transition-transform hover:scale-105">
+                    Generate Insights
+                </button>
+            </div>
+            <!-- Loading Spinner -->
+            <div id="loading-spinner" class="hidden flex-col items-center justify-center p-8 bg-white rounded-2xl shadow-xl">
+                 <svg class="animate-spin -ml-1 mr-3 h-10 w-10 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <p class="mt-4 text-lg font-semibold text-gray-700">Analyzing your data...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Dashboard Page -->
+    <div id="dashboard-page" class="page page-hidden overflow-y-auto bg-gray-100 p-4 sm:p-6 md:p-8">
+        <header class="flex flex-wrap justify-between items-center mb-8 gap-4">
+            <div class="flex items-center">
+                <svg class="w-10 h-10 text-indigo-600" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M25 85V45L50 20L75 45V85H25Z" stroke="currentColor" stroke-width="5"/>
+                    <path d="M40 85V60C40 54.4772 44.4772 50 50 50C55.5228 50 60 54.4772 60 60V85" stroke="#a5b4fc" stroke-width="5"/>
+                </svg>
+                <h1 class="text-3xl font-extrabold text-gray-800 ml-3">VyaparSaathi Dashboard</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                 <button id="save-analysis-btn" class="flex items-center text-sm font-semibold text-white bg-green-500 hover:bg-green-600 rounded-lg px-4 py-2 transition-transform hover:scale-105 shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>
+                    Save Analysis
+                </button>
+                <button id="new-analysis-btn" class="flex items-center text-sm font-semibold text-indigo-600 hover:text-indigo-800 bg-white px-4 py-2 rounded-lg shadow-sm">
+                    &larr; Start New Analysis
+                </button>
+            </div>
+        </header>
+
+        <!-- Stat Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl shadow-lg transition-transform hover:scale-105 hover:shadow-xl flex items-start justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-500">Best Selling Product</h3>
+                    <p id="best-seller" class="text-2xl font-bold text-gray-800 mt-1">Espresso</p>
+                </div>
+                <div class="bg-indigo-100 text-indigo-600 p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-12v4m-2-2h4m5 6v4m-2-2h4M17 3l4 4M3 17l4 4M17 21l4-4M3 7l4-4" /></svg></div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-lg transition-transform hover:scale-105 hover:shadow-xl flex items-start justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-500">Worst Selling Product</h3>
+                    <p id="worst-seller" class="text-2xl font-bold text-gray-800 mt-1">Green Tea</p>
+                </div>
+                <div class="bg-red-100 text-red-600 p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 17h8m-8-8h8m-8 4h8M3 21h4v-4H3v4zM3 3h4v4H3V3zm0 7h4v4H3v-4z" /></svg></div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-lg transition-transform hover:scale-105 hover:shadow-xl flex items-start justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-500">Peak Hours</h3>
+                    <p id="peak-hours" class="text-2xl font-bold text-gray-800 mt-1">9 AM - 11 AM</p>
+                </div>
+                <div class="bg-amber-100 text-amber-600 p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-lg transition-transform hover:scale-105 hover:shadow-xl flex items-start justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-500">Total Customers</h3>
+                    <p id="total-customers" class="text-2xl font-bold text-gray-800 mt-1">1,204</p>
+                </div>
+                <div class="bg-sky-100 text-sky-600 p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.653-.28-1.25-1.45-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.653.28-1.25 1.45-1.857M12 4a3 3 0 100 6 3 3 0 000-6z" /></svg></div>
+            </div>
+            <div id="profit-card" class="p-6 rounded-2xl shadow-lg transition-transform hover:scale-105 hover:shadow-xl flex items-start justify-between">
+                <div>
+                    <h3 class="text-sm font-semibold text-gray-200">Monthly Profit</h3>
+                    <p id="profit" class="text-2xl font-bold text-white mt-1">$5,430</p>
+                </div>
+                <div class="bg-white/30 text-white p-2 rounded-lg"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg></div>
+            </div>
+        </div>
+
+        <!-- Dynamic Content Area -->
+        <div id="dynamic-content-area">
+            <!-- This will be populated by JS -->
+        </div>
+
+        <!-- AI Recommendations & Chat -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-8">
+            <div class="lg:col-span-2 bg-white p-6 rounded-2xl shadow-lg">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">✨ AI Recommendations</h2>
+                <div id="ai-recommendations" class="text-gray-600 space-y-3">
+                    <p>Click on a product from the list above to generate tailored recommendations.</p>
+                </div>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-lg flex flex-col">
+                <h2 class="text-xl font-bold text-gray-800 mb-4">✨ Ask AI</h2>
+                <div id="chat-window" class="flex-grow bg-gray-100 rounded-lg p-3 space-y-4 overflow-y-auto h-48 mb-4 custom-scrollbar">
+                    <!-- Chat messages will appear here -->
+                </div>
+                <div class="flex">
+                    <input id="chat-input" type="text" placeholder="Type your question..." class="w-full px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                    <button id="chat-send" class="bg-indigo-600 text-white px-4 py-2 rounded-r-lg hover:bg-indigo-700 font-semibold transition-colors flex items-center">
+                        <span id="chat-send-text">Send</span>
+                        <svg id="chat-spinner" class="animate-spin -ml-1 mr-2 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- History Page -->
+<div id="history-page" class="page page-hidden flex flex-col items-center justify-center bg-gray-100 p-4 sm:p-6 md:p-8">
+    <div class="w-full max-w-3xl">
+        <header class="flex items-center mb-6">
+            <button id="back-to-choice-from-history" class="text-sm font-semibold text-indigo-600 hover:text-indigo-800 flex items-center mr-4">&larr; Back</button>
+            <h1 class="text-3xl font-extrabold text-gray-800">Your Saved Reports</h1>
+        </header>
+        <div id="loading-history" class="text-center py-10">
+            <div class="animate-spin h-8 w-8 text-indigo-600 mx-auto"></div>
+            <p class="mt-2 text-gray-500">Fetching reports...</p>
+        </div>
+        <div id="reports-list-container" class="hidden bg-white rounded-2xl shadow-lg">
+            <ul id="reports-list" class="divide-y divide-gray-200">
+                <!-- Reports will be inserted here -->
+            </ul>
+        </div>
+        <p id="no-reports-msg" class="hidden text-center text-gray-500 mt-4">You haven't saved any reports yet.</p>
+    </div>
+</div>
+    
+    <!-- Summary Modal -->
+    <div id="summary-modal" class="modal-overlay fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 hidden">
+        <div class="modal-content bg-white w-full max-w-2xl rounded-2xl shadow-xl p-6 transform scale-95">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800">✨ AI Executive Summary</h2>
+                <button id="close-modal-btn" class="text-gray-400 hover:text-gray-600">&times;</button>
+            </div>
+            <div id="modal-body" class="text-gray-600 space-y-4">
+                <!-- Content will be injected here by JS -->
+            </div>
+        </div>
+    </div>
+
+<script>
+// --- CONFIG ---
+// Determine API base robustly. If page is opened via file:// or served from a different host,
+// default to the common local backend address. This prevents "Failed to fetch" when the
+// page isn't served from http://localhost.
+let API_BASE = 'http://127.0.0.1:5000';
+try {
+    if (location && location.protocol && location.protocol !== 'file:') {
+        // When developing, prefer localhost hostname if present to avoid some CORS/host rules
+        API_BASE = (location.hostname === 'localhost' ? 'http://localhost:5000' : 'http://127.0.0.1:5000');
+    }
+} catch (e) {
+    // keep default
+}
+
+// --- DOM ELEMENTS & STATE ---
+const pages = {
+    splash: document.getElementById('splash-screen'),
+    login: document.getElementById('login-page'),
+    choice: document.getElementById('choice-page'),
+    upload: document.getElementById('upload-page'),
+    history: document.getElementById('history-page'), // You will need to add the HTML for this
+    dashboard: document.getElementById('dashboard-page'),
+};
+let currentAnalysisData = null; // Holds the active analysis JSON
+
+// --- PAGE NAVIGATION ---
+function switchPage(hide, show) {
+    if (hide) hide.classList.add('page-hidden');
+    setTimeout(() => { if (show) show.classList.remove('page-hidden'); }, 500);
+}
+
+// --- AUTHENTICATION & INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', async () => {
+    // No auth; go to splash then user proceeds
+    switchPage(null, pages.splash);
+    setupEventListeners();
+});
+
+function setupEventListeners() {
+    // Splash & Login
+    document.getElementById('logo-container').addEventListener('click', () => switchPage(pages.splash, pages.login));
+    document.getElementById('login-btn').addEventListener('click', () => switchPage(pages.login, pages.choice));
+
+    // Choice Page
+    document.getElementById('go-to-upload-card').addEventListener('click', () => switchPage(pages.choice, pages.upload));
+    document.getElementById('access-previous-card').addEventListener('click', () => {
+        // We need a history page to switch to. Let's assume it exists and has id="history-page"
+        const historyPage = document.getElementById('history-page');
+        if (historyPage) {
+             switchPage(pages.choice, historyPage);
+             loadUserReports();
+        } else {
+            alert('History page HTML is missing!');
+        }
+    });
+    document.getElementById('back-to-login-btn').addEventListener('click', () => switchPage(pages.choice, pages.login));
+
+    // Upload Page
+    document.getElementById('back-to-choice-btn').addEventListener('click', () => switchPage(pages.upload, pages.choice));
+    const fileInput = document.getElementById('file-upload');
+    const submitBtn = document.getElementById('submit-btn');
+    let selectedFile = null;
+
+    submitBtn.addEventListener('click', async () => {
+        if (selectedFile) {
+            await handleFileUpload({ target: { files: [selectedFile] } });
+        } else {
+            fileInput.click();
+        }
+    });
+    fileInput.addEventListener('change', (e) => {
+        selectedFile = e.target.files && e.target.files[0] ? e.target.files[0] : null;
+        if (selectedFile) {
+            // Optional: show filename to the user
+            submitBtn.textContent = 'Generate Insights';
+        }
+    });
+    
+    // History Page (assuming a back button with this ID exists)
+    const backFromHistoryBtn = document.getElementById('back-to-choice-from-history');
+    if(backFromHistoryBtn) {
+        backFromHistoryBtn.addEventListener('click', () => switchPage(pages.history, pages.choice));
+    }
+
+    // Dashboard Page
+    document.getElementById('save-analysis-btn').addEventListener('click', handleSaveAnalysis);
+    document.getElementById('new-analysis-btn').addEventListener('click', () => switchPage(pages.dashboard, pages.choice));
+}
+
+// Auth disabled in this version
+
+// --- FILE UPLOAD AND ANALYSIS ---
+async function handleFileUpload(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const uploadBox = document.getElementById('upload-box');
+    const loadingSpinner = document.getElementById('loading-spinner');
+    uploadBox.classList.add('hidden');
+    loadingSpinner.classList.remove('hidden');
+    loadingSpinner.classList.add('flex');
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+        const response = await fetch(`${API_BASE}/analyze`, {
+            method: 'POST',
+            // Do NOT set Content-Type when sending FormData; the browser will set the
+            // proper multipart/form-data boundary. Setting the header manually can
+            // cause the request to be malformed and the server to reject it.
+            body: formData
+        });
+
+        // If the network fails (server unreachable) fetch will throw. If the server
+        // responds with non-JSON or an error status, we handle both cases with clearer messages.
+        let resultText;
+        try {
+            resultText = await response.text();
+        } catch (e) {
+            throw new Error(`No response body: ${e.message}`);
+        }
+
+        let result;
+        try {
+            result = JSON.parse(resultText);
+        } catch (e) {
+            // Not JSON - show raw text for debugging
+            if (!response.ok) throw new Error(`Server returned ${response.status}: ${resultText}`);
+            throw new Error(`Unexpected non-JSON response: ${resultText}`);
+        }
+
+        if (!response.ok) throw new Error(result.error || `Analysis failed with status ${response.status}`);
+
+        currentAnalysisData = result;
+        sessionStorage.setItem('vyaparSaathiReportName', file.name);
+        
+        populateDashboard(result);
+        switchPage(pages.upload, pages.dashboard);
+    } catch (error) {
+        alert(`Error: ${error.message}`);
+    } finally {
+        uploadBox.classList.remove('hidden');
+        loadingSpinner.classList.add('hidden');
+        loadingSpinner.classList.remove('flex');
+    }
+}
+
+// --- HISTORY & SAVING LOGIC ---
+async function loadUserReports() {
+    const loadingDiv = document.getElementById('loading-history');
+    const listContainer = document.getElementById('reports-list-container');
+    const reportsList = document.getElementById('reports-list');
+    const noReportsMsg = document.getElementById('no-reports-msg');
+
+    if (!loadingDiv || !listContainer) {
+        alert('History page elements not found in HTML!');
+        return;
+    }
+
+    loadingDiv.style.display = 'block';
+    listContainer.classList.add('hidden');
+    noReportsMsg.classList.add('hidden');
+
+    try {
+        const response = await fetch(`${API_BASE}/get_reports`);
+
+        const reports = await response.json();
+        if (!response.ok) throw new Error(reports.error);
+        
+        if (reports.length > 0) {
+            reportsList.innerHTML = reports.map(r => `
+                <li class="p-4 flex justify-between items-center hover:bg-gray-50 cursor-pointer" data-report-id="${r.id}">
+                    <div>
+                        <span class="font-semibold text-gray-800">${r.report_name || 'Untitled Report'}</span>
+                        <span class="block text-sm text-gray-500">Created on ${new Date(r.created_at).toLocaleDateString()}</span>
+                    </div>
+                    <span class="text-indigo-600 font-bold hover:underline">View &rarr;</span>
+                </li>`).join('');
+            
+            reportsList.querySelectorAll('li').forEach(item => {
+                item.addEventListener('click', (e) => {
+                    const reportId = e.currentTarget.dataset.reportId;
+                    loadSpecificReport(reportId);
+                });
+            });
+            listContainer.classList.remove('hidden');
+        } else {
+            noReportsMsg.classList.remove('hidden');
+        }
+    } catch (error) {
+        alert(`Could not fetch reports: ${error.message}`);
+    } finally {
+        loadingDiv.style.display = 'none';
+    }
+}
+
+async function loadSpecificReport(reportId) {
+    try {
+        const response = await fetch(`${API_BASE}/get_report/${reportId}`);
+
+        const reportData = await response.json();
+        if (!response.ok) throw new Error(reportData.error);
+        
+        currentAnalysisData = reportData;
+        populateDashboard(reportData);
+        switchPage(pages.history, pages.dashboard);
+    } catch (error) {
+        alert(`Could not load report: ${error.message}`);
+    }
+}
+
+async function handleSaveAnalysis() {
+    const saveBtn = document.getElementById('save-analysis-btn');
+    const originalText = saveBtn.innerHTML;
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = `<svg class="animate-spin h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Saving...`;
+
+    const reportName = sessionStorage.getItem('vyaparSaathiReportName') || 'Untitled Report';
+
+    try {
+        const response = await fetch(`${API_BASE}/save_report`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                reportName: reportName,
+                analysisData: currentAnalysisData
+            })
+        });
+
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.error);
+        
+        saveBtn.innerHTML = `✓ Saved!`;
+        setTimeout(() => { 
+            saveBtn.innerHTML = originalText; 
+            saveBtn.disabled = false; 
+        }, 2500);
+
+    } catch (error) {
+        alert(`Save failed: ${error.message}`);
+        saveBtn.innerHTML = originalText;
+        saveBtn.disabled = false;
+    }
+}
+
+// --- DASHBOARD RENDERING LOGIC ---
+function populateDashboard(analysisData) {
+    const products = analysisData.products || [];
+    if (products.length === 0) {
+        document.getElementById('dynamic-content-area').innerHTML = `<p class="text-center text-gray-500">No product data to display in this report.</p>`;
+        return;
+    }
+
+    const sortedByBest = [...products].sort((a, b) => b.unitsSold - a.unitsSold);
+    const sortedByWorst = [...products].sort((a, b) => a.unitsSold - b.unitsSold);
+    const totalProfit = products.reduce((sum, p) => sum + p.profit, 0);
+
+    document.getElementById('best-seller').textContent = sortedByBest[0].name;
+    document.getElementById('worst-seller').textContent = sortedByWorst[0].name;
+    document.getElementById('total-customers').textContent = '1,204'; // This is a placeholder
+    document.getElementById('peak-hours').textContent = '9-11 AM'; // This is a placeholder
+    
+    const profitCard = document.getElementById('profit-card');
+    document.getElementById('profit').textContent = `$${totalProfit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    
+    profitCard.className = 'p-6 rounded-2xl shadow-lg transition-transform hover:scale-105 hover:shadow-xl flex items-start justify-between'; // Reset classes
+    if (totalProfit >= 0) {
+        profitCard.classList.add('glow-green', 'bg-green-500');
+    } else {
+        profitCard.classList.add('glow-red', 'bg-red-600');
+    }
+
+    showProductListView(products);
+}
+
+function showProductListView(products) {
+    const container = document.getElementById('dynamic-content-area');
+    const items = products
+        .map(p => `
+        <div class="bg-white p-4 rounded-xl shadow hover:shadow-lg transition cursor-pointer" data-product="${p.name}">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-lg font-semibold text-gray-800">${p.name}</p>
+                    <p class="text-sm text-gray-500">Units sold: ${p.unitsSold.toLocaleString()}</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-500">Profit</p>
+                    <p class="text-xl font-bold ${p.profit >= 0 ? 'text-green-600' : 'text-red-600'}">$${p.profit.toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})}</p>
+                </div>
+            </div>
+        </div>
+    `).join('');
+    container.innerHTML = `
+        <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Products</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">${items}</div>
+        </div>
+        <div class="bg-white p-6 rounded-2xl shadow-lg mt-8">
+            <h2 class="text-xl font-bold text-gray-800 mb-4">Details</h2>
+            <div id="product-detail"></div>
+        </div>
+    `;
+    container.querySelectorAll('[data-product]').forEach(card => {
+        card.addEventListener('click', () => {
+            const name = card.getAttribute('data-product');
+            const product = products.find(x => x.name === name);
+            if (product) showProductDetailView(product);
+        });
+    });
+}
+
+let activeChart = null;
+function showProductDetailView(product) {
+    const target = document.getElementById('product-detail');
+    target.innerHTML = `
+        <div class="flex flex-col lg:flex-row gap-6">
+            <div class="flex-1">
+                <h3 class="text-lg font-semibold text-gray-800 mb-2">${product.name} Trend</h3>
+                <canvas id="product-chart" height="120"></canvas>
+            </div>
+            <div class="w-full lg:w-80">
+                <div class="bg-gray-50 rounded-xl p-4">
+                    <p class="text-sm text-gray-500">Units sold</p>
+                    <p class="text-2xl font-bold text-gray-800 mb-2">${product.unitsSold.toLocaleString()}</p>
+                    <p class="text-sm text-gray-500">Total profit</p>
+                    <p class="text-2xl font-bold ${product.profit >= 0 ? 'text-green-600' : 'text-red-600'}">$${product.profit.toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})}</p>
+                </div>
+                <div class="mt-4 space-y-2">
+                    ${(product.analysis || []).map(a => `<p class="text-sm text-gray-600">• ${a}</p>`).join('')}
+                </div>
+            </div>
+        </div>
+    `;
+    const ctx = document.getElementById('product-chart');
+    if (activeChart) {
+        activeChart.destroy();
+        activeChart = null;
+    }
+    activeChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: product.labels || ['Jan','Feb','Mar','Apr','May','Jun'],
+            datasets: [{
+                label: 'Sales',
+                data: product.salesData || [],
+                borderColor: '#4f46e5',
+                backgroundColor: 'rgba(79,70,229,0.15)',
+                fill: true,
+                tension: 0.35
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { grid: { color: '#eee' } }
+            }
+        }
+    });
+}
+</script>
+</body>
+</html>

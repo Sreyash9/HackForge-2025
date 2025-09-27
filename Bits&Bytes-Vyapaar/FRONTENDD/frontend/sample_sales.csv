@@ -1,0 +1,14 @@
+Product Name,Quantity Sold,Unit Price,Cost Per Unit,Customer ID
+Espresso,120,3.00,0.80,C001
+Latte,95,3.80,1.10,C002
+Cappuccino,60,3.50,1.00,C003
+Americano,40,2.80,0.70,C004
+Mocha,30,4.20,1.30,C005
+Green Tea,20,2.50,0.60,C006
+Black Tea,25,2.40,0.55,C007
+Hot Chocolate,35,3.20,0.90,C008
+Iced Coffee,50,3.60,1.00,C009
+Chai Latte,45,3.40,0.95,C010
+Matcha Latte,22,4.00,1.40,C011
+Flat White,55,3.70,1.05,C012
+
