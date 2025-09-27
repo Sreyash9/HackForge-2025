@@ -35,8 +35,7 @@ hackforge-2025-projects/
 1. **Fork this repository** by clicking the "Fork" button at the top right
 2. **Clone your fork** to your local machine:
    ```bash
-   git clone https://github.com/YOUR-USERNAME/hackathon-2025-projects.git
-   cd hackathon-2025-projects
+   git clone https://github.com/YOUR-USERNAME/HackForge-2025.git
    ```
 3. **Create a new branch** for your team:
    ```bash
