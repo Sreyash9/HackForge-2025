@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "672645600243",
+    "project_id": "pccehackathon-cd93b",
+    "storage_bucket": "pccehackathon-cd93b.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:672645600243:android:b96594a6d0602b90e2b886",
+        "android_client_info": {
+          "package_name": "com.example.hackathonpcce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbw_9q7Hd2JGEIoyf-LdnZ9Fiaqx51DVc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
